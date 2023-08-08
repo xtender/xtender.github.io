@@ -9,7 +9,8 @@
   <summary>чуть подробнее</summary>
   
 Например, операция "TABLE ACCESS" имеет следующие варианты:
-```SQL
+
+```
 BY GLOBAL INDEX ROWID BATCHED
 BY INDEX ROWID
 BY INDEX ROWID BATCHED
@@ -21,7 +22,7 @@ SAMPLE
 ```
 
 А у INDEX:
-```SQL
+```
 FAST FULL SCAN
 FULL SCAN
 FULL SCAN (MIN/MAX)
@@ -69,7 +70,7 @@ s/qergh/HASH GROUP BY: /g
 Например, HASH JOIN сначала вычитывает все результаты первой дочерней операции(build table) и только потом запускает вторую (prob table), a NESTED LOOPS получает строку из первой дочерней и для нее запускает вторую дочернюю, затем запускает снова первую, чтобы получить очередную строку и для нее снова вторую и тд...
 Или еще более простой пример с select * from dual where 1=0:
 
-```sql
+```
 ---------------------------------------------------------------------------
 | Id  | Operation          | Name | Rows  | Bytes | Cost (%CPU)| Time     |
 ---------------------------------------------------------------------------
@@ -91,7 +92,7 @@ Predicate Information (identified by operation id):
   <summary>Пример чтения плана:</summary>
 Пример запроса и плана:
   
-```sql
+```
  SELECT E.employee_id, 
         E.last_name,
         d.department_name
@@ -121,6 +122,7 @@ Predicate Information (identified by operation id):
    4 - access(UPPER("FIRST_NAME")='GUY')                                                     
    5 - access("E"."DEPARTMENT_ID"="D"."DEPARTMENT_ID")
 ```
+
 0. Запускается SELECT, который запускает NESTED LOOPS из шага 1;
 1. NESTED LOOPS шага 1, запускает NESTED LOOPS из шага 2 и для каждой возвращенной строки(ROWIDs) оттуда выполняет шаг 6, т.е. достает оттуда строки по найденным ROWID из шага 2;
 2. NESTED LOOPS шага 2 запускает процедуру из шага 3 (TABLE ACCESS BY INDEX ROWID) и по возвращенным строкам оттуда выполняет шаг 5, т.е. фильтрует эти строки по INDEX UNIQUE SCAN индекса DEPT_ID_PK
