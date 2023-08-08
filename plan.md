@@ -7,8 +7,9 @@
 
 <details>
   <summary>чуть подробнее</summary>
+  
 Например, операция "TABLE ACCESS" имеет следующие варианты:
-```
+```SQL
 BY GLOBAL INDEX ROWID BATCHED
 BY INDEX ROWID
 BY INDEX ROWID BATCHED
@@ -18,8 +19,9 @@ CLUSTER
 FULL
 SAMPLE
 ```
+
 А у INDEX:
-```
+```SQL
 FAST FULL SCAN
 FULL SCAN
 FULL SCAN (MIN/MAX)
