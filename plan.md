@@ -39,8 +39,10 @@ UNIQUE SCAN
 Соответствие названий некоторых операций и реальных сишных функций можно увидеть в скрипте у Танела Подера:
 http://blog.tanelpoder.com/files/scripts/tools/unix/os_explain
 
-Короткий пример из os_explain
+Короткий пример из os_explain:
+
 ```
+
 s/qerbm/MINUS: /g;
 s/qercb/CONNECT BY: /g;
 s/qerco/COUNT: /g;
@@ -59,6 +61,7 @@ s/qerso/SORT: /g;
 s/qertb/TABLE ACCESS: /g;
 s/qerua/UNION-ALL: /g;
 s/qergh/HASH GROUP BY: /g
+
 ```
 Больше описаний функций можно найти в проекте Frits Hoogland [orafun.info](http://orafun.info/)
 
@@ -69,7 +72,9 @@ s/qergh/HASH GROUP BY: /g
 Например, HASH JOIN сначала вычитывает все результаты первой дочерней операции(build table) и только потом запускает вторую (prob table), a NESTED LOOPS получает строку из первой дочерней и для нее запускает вторую дочернюю, затем запускает снова первую, чтобы получить очередную строку и для нее снова вторую и тд...
 Или еще более простой пример с select * from dual where 1=0:
 
-```
+```sql
+
+PLAN:
 ---------------------------------------------------------------------------
 | Id  | Operation          | Name | Rows  | Bytes | Cost (%CPU)| Time     |
 ---------------------------------------------------------------------------
@@ -82,6 +87,7 @@ Predicate Information (identified by operation id):
 ---------------------------------------------------
 
    1 - filter(NULL IS NOT NULL)
+
 ```
 
 В данном случае операция FILTER не запускает дочерний TABLE ACCESS FULL, т.к. условие ложно.
@@ -91,7 +97,7 @@ Predicate Information (identified by operation id):
   <summary>Пример чтения плана:</summary>
 Пример запроса и плана:
   
-```
+```sql
  SELECT E.employee_id, 
         E.last_name,
         d.department_name
@@ -127,6 +133,7 @@ Predicate Information (identified by operation id):
 2. NESTED LOOPS шага 2 запускает процедуру из шага 3 (TABLE ACCESS BY INDEX ROWID) и по возвращенным строкам оттуда выполняет шаг 5, т.е. фильтрует эти строки по INDEX UNIQUE SCAN индекса DEPT_ID_PK
 3. Шаг 3 - TABLE ACCESS BY INDEX ROWID - запускает шаг 4(INDEX RANGE SCAN) и по возвращенным оттуда ROWID достает строки из таблицы EMPLOYEES
 4. Шаг 4 сканирует индекс FIRST_NAME через IRS(index range scan) по предикату: access(UPPER("FIRST_NAME")='GUY')
+
 </details>
 
 Доп.материалы:
