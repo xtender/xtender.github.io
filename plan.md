@@ -66,6 +66,7 @@ s/qergh/HASH GROUP BY: /g
 При необходимости каждая строка плана запускает, останавливает и обрабатывает дочерние операции. А каким именно образом и сколько раз она их запускает зависит от самой операции и ее параметров.
 
 Например, HASH JOIN сначала вычитывает все результаты первой дочерней операции(build table) и только потом запускает вторую (prob table), a NESTED LOOPS получает строку из первой дочерней и для нее запускает вторую дочернюю, затем запускает снова первую, чтобы получить очередную строку и для нее снова вторую и тд...
+
 Или еще более простой пример с select * from dual where 1=0:
 
 ```sql
@@ -88,8 +89,7 @@ Predicate Information (identified by operation id):
 
 В данном случае операция FILTER не запускает дочерний TABLE ACCESS FULL, т.к. условие ложно.
 
-<details>
-  <summary>Пример чтения плана:</summary>
+***
 Пример запроса и плана:
   
 ```sql
@@ -129,7 +129,7 @@ Predicate Information (identified by operation id):
 3. Шаг 3 - TABLE ACCESS BY INDEX ROWID - запускает шаг 4(INDEX RANGE SCAN) и по возвращенным оттуда ROWID достает строки из таблицы EMPLOYEES
 4. Шаг 4 сканирует индекс FIRST_NAME через IRS(index range scan) по предикату: access(UPPER("FIRST_NAME")='GUY')
 
-</details>
+***
 
 Доп.материалы:
 
