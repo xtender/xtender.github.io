@@ -6,11 +6,11 @@
 Собственно, V$SQL_PLAN.OPERATION - это название функции, а V$SQL_PLAN.OPTIONS - это ее входной параметр, определяющий ее алгоритм/подфункцию.
 
 <details>
-  <summary>чуть подробнее</summary>
+<summary>чуть подробнее</summary>
   
 Например, операция "TABLE ACCESS" имеет следующие варианты:
 
-```
+````
 BY GLOBAL INDEX ROWID BATCHED
 BY INDEX ROWID
 BY INDEX ROWID BATCHED
@@ -19,10 +19,11 @@ BY USER ROWID
 CLUSTER
 FULL
 SAMPLE
-```
+````
 
 А у INDEX:
-```
+
+````
 FAST FULL SCAN
 FULL SCAN
 FULL SCAN (MIN/MAX)
@@ -32,7 +33,8 @@ RANGE SCAN DESCENDING
 SAMPLE FAST FULL SCAN
 SKIP SCAN
 UNIQUE SCAN
-```
+````
+ss
 </details>
 
 Т.к. алгоритмы совершенно разные, то и смысла называть только OPERATION без OPTIONS не имеет, поэтому DBMS_XPLAN как и другие инструменты их конкатенируют, например TABLE ACCESS FULL, TABLE ACCESS BY INDEX ROWID. 
